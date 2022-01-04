@@ -27,6 +27,9 @@ public class BroadcastMessageEncoder extends MessageToMessageEncoder<BroadcastMe
             return;
         }
         for(Monitor monitor : properties.getMonitors()) {
+            if(monitor.getPort() == null) {
+                monitor.setPort(properties.getMonitorPort());
+            }
             ByteBuf byteBuf = ctx.alloc().buffer(msg.getContent().length() + 1);
             byteBuf.writeBytes(msg.getContent().getBytes(CharsetUtil.UTF_8));
             InetSocketAddress address = new InetSocketAddress(monitor.getHost(), monitor.getPort());

@@ -6,7 +6,7 @@
 
     <groupId>plus.jdk</groupId>
     <artifactId>spring-boot-starter-broadcast</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
     <name>spring-boot-starter-plus.jdk.broadcast</name>
     <description>A simple message plus.jdk.broadcast component base on udp </description>
