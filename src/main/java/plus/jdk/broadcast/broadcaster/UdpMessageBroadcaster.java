@@ -4,6 +4,7 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
+import io.netty.handler.logging.LoggingHandler;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import plus.jdk.broadcast.broadcaster.adapter.BroadcastMessageEncoder;
@@ -35,6 +36,7 @@ public class UdpMessageBroadcaster implements IBroadcaster {
             protected void initChannel(Channel ch) {
                 ChannelPipeline pipeline = ch.pipeline();
                 pipeline.addLast(new BroadcastMessageEncoder(properties));
+                pipeline.addLast("logging",new LoggingHandler(properties.getLogging()));
             }
         });
     }

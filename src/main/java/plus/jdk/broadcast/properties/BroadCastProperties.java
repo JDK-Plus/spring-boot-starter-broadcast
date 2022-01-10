@@ -1,5 +1,6 @@
 package plus.jdk.broadcast.properties;
 
+import io.netty.handler.logging.LogLevel;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import plus.jdk.broadcast.constant.BroadcastType;
@@ -41,4 +42,9 @@ public class BroadCastProperties {
      * 广播类型
      */
     private BroadcastType broadcastType;
+
+    /**
+     * 日志类型
+     */
+    private LogLevel logging = LogLevel.DEBUG;
 }

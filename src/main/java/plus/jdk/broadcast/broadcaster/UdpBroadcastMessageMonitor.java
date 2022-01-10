@@ -4,6 +4,8 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import plus.jdk.broadcast.broadcaster.adapter.BroadcastMessageDecoder;
@@ -24,8 +26,6 @@ public class UdpBroadcastMessageMonitor implements IMessageMonitor {
 
     private final Bootstrap bootstrap;
 
-    private SimpleChannelInboundHandler<BroadcastMessage> inboundHandler;
-
     public UdpBroadcastMessageMonitor(BroadCastProperties properties) {
         this.properties = properties;
         group = new NioEventLoopGroup();
@@ -34,6 +34,7 @@ public class UdpBroadcastMessageMonitor implements IMessageMonitor {
         bootstrap.channel(NioDatagramChannel.class);
         bootstrap.option(ChannelOption.SO_BROADCAST, true);
         bootstrap.localAddress(new InetSocketAddress(properties.getMonitorPort()));
+        bootstrap.handler(new LoggingHandler(properties.getLogging()));
         log.info("========>>> broadcast server started, listen port: {} <<<========", properties.getMonitorPort());
     }
 
@@ -52,14 +53,12 @@ public class UdpBroadcastMessageMonitor implements IMessageMonitor {
                 });
             }
         });
-        Channel channel = bootstrap.bind().syncUninterruptibly().channel();
-        try {
-            channel.closeFuture().await();
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("UdpBroadcastMessageMonitor something went wrong, msg:{}", e.getMessage());
-        } finally {
-            group.shutdownGracefully();
-        }
+        ChannelFuture channelFuture = bootstrap.bind();
+        channelFuture.addListener(future -> {
+            if (!future.isSuccess()) {
+                future.cause().printStackTrace();
+            }
+        });
+        Runtime.getRuntime().addShutdownHook(new Thread(group::shutdownGracefully));
     }
 }
