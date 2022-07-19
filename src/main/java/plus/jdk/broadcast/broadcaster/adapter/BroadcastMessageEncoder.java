@@ -8,6 +8,7 @@ import io.netty.util.CharsetUtil;
 import plus.jdk.broadcast.broadcaster.model.BroadcastMessage;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.List;
 
 import plus.jdk.broadcast.model.Monitor;
@@ -23,10 +24,18 @@ public class BroadcastMessageEncoder extends MessageToMessageEncoder<BroadcastMe
 
     @Override
     protected void encode(ChannelHandlerContext ctx, BroadcastMessage msg, List<Object> out) throws Exception {
-        if(properties.getMonitors() == null) {
+        List<Monitor> monitorList = new ArrayList<>();
+
+        if(properties.getMonitors() != null) {
+            monitorList.addAll(properties.getMonitors());
+        }
+        if(msg.getMonitorList() != null) {
+            monitorList.addAll(msg.getMonitorList());
+        }
+        if(monitorList.size() == 0) {
             return;
         }
-        for(Monitor monitor : properties.getMonitors()) {
+        for(Monitor monitor : monitorList) {
             if(monitor.getPort() == null) {
                 monitor.setPort(properties.getMonitorPort());
             }
