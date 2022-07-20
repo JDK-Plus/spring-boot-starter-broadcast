@@ -48,7 +48,12 @@ public class UdpBroadcastMessageMonitor implements IMessageMonitor {
                 pipeline.addLast(new SimpleChannelInboundHandler<BroadcastMessage>() {
                     @Override
                     protected void channelRead0(ChannelHandlerContext ctx, BroadcastMessage msg) {
-                        processor.processMessage(ctx, msg);
+                        try{
+                            processor.processMessage(ctx, msg);
+                        }catch(Exception e){
+                            e.printStackTrace();
+                            log.error(e.getMessage());
+                        }
                     }
                 });
             }

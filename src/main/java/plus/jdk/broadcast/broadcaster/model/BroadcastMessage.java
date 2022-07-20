@@ -16,10 +16,14 @@ public class BroadcastMessage {
     /**
      * 消息内容
      */
-    private String content;
+    private byte[] content;
 
     /**
      * 需要追加的广播目标机器的列表
      */
     private List<Monitor> monitorList = new ArrayList<>();
+
+    public BroadcastMessage(byte[] content) {
+        this.content = content;
+    }
 }

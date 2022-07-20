@@ -39,8 +39,8 @@ public class BroadcastMessageEncoder extends MessageToMessageEncoder<BroadcastMe
             if(monitor.getPort() == null) {
                 monitor.setPort(properties.getMonitorPort());
             }
-            ByteBuf byteBuf = ctx.alloc().buffer(msg.getContent().length() + 1);
-            byteBuf.writeBytes(msg.getContent().getBytes(CharsetUtil.UTF_8));
+            ByteBuf byteBuf = ctx.alloc().buffer(msg.getContent().length + 1);
+            byteBuf.writeBytes(msg.getContent());
             InetSocketAddress address = new InetSocketAddress(monitor.getHost(), monitor.getPort());
             out.add(new DatagramPacket(byteBuf, address));
         }

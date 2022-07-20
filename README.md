@@ -7,7 +7,7 @@
 <dependency>
     <groupId>plus.jdk</groupId>
     <artifactId>spring-boot-starter-broadcast</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.7</version>
 </dependency>
 ```
 

@@ -23,7 +23,7 @@ public class BroadcastMessageDecoder extends MessageToMessageDecoder<DatagramPac
     protected void decode(ChannelHandlerContext ctx, DatagramPacket msg, List<Object> out) throws Exception {
         ByteBuf byteBuf = msg.content();
         BroadcastMessage broadcastMessage = new BroadcastMessage();
-        broadcastMessage.setContent(byteBuf.toString(StandardCharsets.UTF_8));
+        broadcastMessage.setContent(byteBuf.toString(StandardCharsets.UTF_8).getBytes(StandardCharsets.UTF_8));
         out.add(broadcastMessage);
     }
 }
