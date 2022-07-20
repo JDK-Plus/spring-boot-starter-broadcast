@@ -21,12 +21,12 @@ public class BroadCastProperties {
     /**
      * 要监听广播的端口
      */
-    private Integer monitorPort;
+    private Integer monitorPort = 10300;
 
     /**
      * 广播端口
      */
-    private Integer broadcastPort;
+    private Integer broadcastPort = 0;
 
     /**
      * 接收广播的brokers列表
@@ -34,14 +34,9 @@ public class BroadCastProperties {
     private List<Monitor> monitors = new ArrayList<>();
 
     /**
-     * 以ip + 端口形式组成的配置，多个使用 ','分隔
-     */
-    private String monitorList;
-
-    /**
      * 广播类型
      */
-    private BroadcastType broadcastType;
+    private BroadcastType broadcastType = BroadcastType.UDP_BROADCAST;
 
     /**
      * 日志类型
